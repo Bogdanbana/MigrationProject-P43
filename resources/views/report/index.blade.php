@@ -7,19 +7,18 @@
     @vite(['resources/css/style.css', 'resources/js/app.js'])
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="main_menu">
-                @foreach($reports as $report)
-                <p>{{$report->number}}</p>
-                <p>{{$report->description}}</p>
-                <p>{{$report->created_at}}</p>
-                @endforeach
-            </div>
-            <a href="{{route('report.create')}}">Создание запроса</a>
-        </div>
-    </header>
-    <body></body>
-    <footer></footer>
+    <a href="{{ route('reports.create') }}">Создание заявления</a>
+    @foreach ($reports as $report)
+    <p> {{ $report->number }} </p>
+    <p> {{ $report->description }} </p>
+    <p> {{ $report->created_at }} </p>
+    <p> {{ $report->deleted_at }} </p>
+    <form method="POST" action="{{route('reports.destroy', $report->id)}}">
+        @method('delete')
+        @csrf
+        <input type="submit" value="Удалить">
+    </form>
+    <a href="{{route('reports.edit', $report->id)}}">Обновить</a>
+    @endforeach
 </body>
 </html>
